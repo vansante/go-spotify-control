@@ -12,7 +12,6 @@ import (
 	"bytes"
 	"strconv"
 	"strings"
-	"log"
 )
 
 const (
@@ -121,7 +120,6 @@ func (cntrl *SpotifyControl) Play(spotifyURI string) (status *Status, err error)
 	if err != nil {
 		return
 	}
-	log.Println(string(bodyBuf))
 	_, _, err = cntrl.getErrorFromJSON(jsonMap)
 	if err != nil {
 		return
