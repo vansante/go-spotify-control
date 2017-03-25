@@ -1,0 +1,46 @@
+{
+  "version": 9,
+  "client_version": "1.0.51.693.g6ea1e7f6",
+  "playing": true,
+  "shuffle": false,
+  "repeat": true,
+  "play_enabled": true,
+  "prev_enabled": true,
+  "next_enabled": true,
+  "track": {
+    "track_resource": {
+      "name": "Purple Rain",
+      "uri": "spotify:track:78tohUCFtANyQCWrbGgHMH",
+      "location": {
+        "og": "https://open.spotify.com/track/78tohUCFtANyQCWrbGgHMH"
+      }
+    },
+    "artist_resource": {
+      "name": "Prince",
+      "uri": "spotify:artist:5a2EaR3hamoenG9rDuVn8j",
+      "location": {
+        "og": "https://open.spotify.com/artist/5a2EaR3hamoenG9rDuVn8j"
+      }
+    },
+    "album_resource": {
+      "name": "Purple Rain",
+      "uri": "spotify:album:4ZW7TDJQMQ3RZl2qSlUEGv",
+      "location": {
+        "og": "https://open.spotify.com/album/4ZW7TDJQMQ3RZl2qSlUEGv"
+      }
+    },
+    "length": 520,
+    "track_type": "normal"
+  },
+  "context": {
+  },
+  "playing_position": 270.039,
+  "server_time": 1490449633,
+  "volume": 1,
+  "online": true,
+  "open_graph_state": {
+    "private_session": false,
+    "posting_disabled": true
+  },
+  "running": true
+}
