@@ -1,6 +1,6 @@
-= GO Spotify Control =
+# GO Spotify Control
 
-Controls a running Spotify instance through their embed web API.
+Controls a running Spotify instance through their embed web API that runs on localhost.
 
 Inspired on:
 

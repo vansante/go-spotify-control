@@ -12,6 +12,7 @@ import (
 	"bytes"
 	"strconv"
 	"strings"
+	"log"
 )
 
 const (
@@ -23,6 +24,7 @@ const SPOTIFY_OAUTH_TOKEN_URL = "https://open.spotify.com/token"
 
 const (
 	URL_CSRF_TOKEN = "/simplecsrf/token.json"
+	URL_PLAY       = "/remote/play.json"
 	URL_PAUSE      = "/remote/pause.json"
 	URL_STATUS     = "/remote/status.json"
 )
@@ -50,15 +52,18 @@ type StatusTrack struct {
 }
 
 type Status struct {
-	Version       int
-	ClientVersion string
-	Playing       bool
-	Shuffle       bool
-	Repeat        bool
-	PlayEnabled   bool
-	PrevEnabled   bool
-	NextEnabled   bool
-	Track         StatusTrack
+	Version         int
+	ClientVersion   string
+	Playing         bool
+	Shuffle         bool
+	Repeat          bool
+	PlayEnabled     bool
+	PrevEnabled     bool
+	NextEnabled     bool
+	Track           StatusTrack
+	PlayingPosition float32
+	Volume          float32
+	Online          bool
 }
 
 func NewSpotifyControl(host string, timeout time.Duration) (cntrl *SpotifyControl, err error) {
@@ -97,11 +102,40 @@ func NewSpotifyControl(host string, timeout time.Duration) (cntrl *SpotifyContro
 	return
 }
 
+func (cntrl *SpotifyControl) GetStatus() (status *Status, err error) {
+	jsonMap, bodyBuf, err := cntrl.doJsonRequest("GET", fmt.Sprintf("%s?csrf=%s&oauth=%s", URL_STATUS, cntrl.csrf, cntrl.oauth))
+	if err != nil {
+		return
+	}
+	_, _, err = cntrl.getErrorFromJSON(jsonMap)
+	if err != nil {
+		return
+	}
+	status = &Status{}
+	err = json.Unmarshal(bodyBuf, status)
+	return
+}
+
+func (cntrl *SpotifyControl) Play(spotifyURI string) (status *Status, err error) {
+	jsonMap, bodyBuf, err := cntrl.doJsonRequest("GET", fmt.Sprintf("%s?csrf=%s&oauth=%s&uri=%s", URL_PLAY, cntrl.csrf, cntrl.oauth, spotifyURI))
+	if err != nil {
+		return
+	}
+	log.Println(string(bodyBuf))
+	_, _, err = cntrl.getErrorFromJSON(jsonMap)
+	if err != nil {
+		return
+	}
+	status = &Status{}
+	err = json.Unmarshal(bodyBuf, status)
+	return
+}
+
 func (cntrl *SpotifyControl) Pause() (status *Status, err error) {
 	return cntrl.SetPauseState(true)
 }
 
-func (cntrl *SpotifyControl) UnPause() (status *Status, err error) {
+func (cntrl *SpotifyControl) Unpause() (status *Status, err error) {
 	return cntrl.SetPauseState(false)
 }
 
